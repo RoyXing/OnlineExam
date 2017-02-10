@@ -40,7 +40,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
-     * 控件初始化aaaaaa
+     * 控件初始化
      */
     private void initView() {
         lineExamination = (LinearLayout) findViewById(R.id.line_examination);
