@@ -6,4 +6,12 @@
     <color name="app_color">#56abe4</color>
     <color name="white">#ffffff</color>
     <color name="menu_tip_text_color">#a9b7b7</color>
+    <!-- 深灰色 -->
+    <color name="gray1">#5c615d</color>
+    <!-- 灰色 -->
+    <color name="gray2">#949393</color>
+    <!-- 淡灰色 -->
+    <color name="gray3">#CCCCCC</color>
+    <!-- 淡淡灰色 -->
+    <color name="gray4">#e5e5e5</color>
 </resources>
