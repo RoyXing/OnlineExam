@@ -13,11 +13,14 @@ import okhttp3.OkHttpClient;
  */
 
 public class MyApplication extends Application {
+    private static MyApplication instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
         init();
     }
+
     /**
      * 网络请求封装，okhttputils  张鸿洋的
      * 使用方法请看以下网页介绍
@@ -31,5 +34,10 @@ public class MyApplication extends Application {
                 .build();
 
         OkHttpUtils.initClient(okHttpClient);
+        instance = this;
+    }
+
+    public static MyApplication getInstance() {
+        return instance;
     }
 }

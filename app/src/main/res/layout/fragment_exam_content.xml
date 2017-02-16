@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="第几小题" />
+
+    <TextView
+        android:id="@+id/text_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Java之父是谁?"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <RadioGroup
+        android:id="@+id/anser_father"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp">
+        <RadioButton
+            android:id="@+id/anser_son1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A 詹姆斯·高斯林"/>
+        <RadioButton
+            android:id="@+id/anser_son2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B 詹姆斯·斯大林"/>
+        <RadioButton
+            android:id="@+id/anser_son3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C 尼古拉斯·山炮"/>
+        <RadioButton
+            android:id="@+id/anser_son4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D 比尔盖茨"/>
+    </RadioGroup>
+
+
+</LinearLayout>

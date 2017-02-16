@@ -6,7 +6,12 @@ package com.onlineexamination.bean;
 
 public class PersonItemBean {
     private String itemName;
-    private String itemImgId;
+    private int itemImgId;
+
+    public PersonItemBean(String itemName, int itemImgId) {
+        this.itemName = itemName;
+        this.itemImgId = itemImgId;
+    }
 
     public String getItemName() {
         return itemName;
@@ -16,11 +21,11 @@ public class PersonItemBean {
         this.itemName = itemName;
     }
 
-    public String getItemImgId() {
+    public int getItemImgId() {
         return itemImgId;
     }
 
-    public void setItemImgId(String itemImgId) {
+    public void setItemImgId(int itemImgId) {
         this.itemImgId = itemImgId;
     }
 }

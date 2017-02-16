@@ -1,6 +1,7 @@
 package com.onlineexamination.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,13 +25,14 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener ,ViewPager.OnPageChangeListener{
+public class MainActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private LinearLayout lineExamination, lineCommunication, linePerson;
     private TextView textExamination, textCommunication, textPerson;
     private ImageView imgExamination, imgCommunication, imgPerson;
     private ViewPager viewPager;
     private TitleView titleView;
     private List<Fragment> fragmentList;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         titleView = (TitleView) findViewById(R.id.toolbar);
         titleView.setCustomTitle("在线考试");
+        titleView.setRightTextOnClickListener(this);
         lineExamination.setOnClickListener(this);
         lineCommunication.setOnClickListener(this);
         linePerson.setOnClickListener(this);
@@ -65,7 +68,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private void initFragment() {
         fragmentList = new ArrayList<>();
         fragmentList.add(new ExamFragment());
-        fragmentList.add(new CommunicationFragment());
+        //此处为了加以利用fragment，此处添加标识，因为在我的发帖和与我相关都要用到此fragment，以此达到复用
+        Bundle bundle = new Bundle();
+        bundle.putInt("how", 2);
+        CommunicationFragment communicationFragment = new CommunicationFragment();
+        communicationFragment.setArguments(bundle);
+        fragmentList.add(communicationFragment);
         fragmentList.add(new PersonFragment());
         MenuTipAdapter adapter = new MenuTipAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
@@ -77,7 +85,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        res();
+        if (v.getId() != R.id.title_right_text)
+            res();
         switch (v.getId()) {
             case R.id.line_examination:
                 change(0);
@@ -97,6 +106,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 textPerson.setTextColor(getResources().getColor(R.color.app_color));
                 imgPerson.setImageResource(R.mipmap.person_press);
                 break;
+            case R.id.title_right_text:
+                if (position == 1) {
+                    Intent writeCommunication = new Intent(MainActivity.this, WriteCommunicationActivity.class);
+                    startActivity(writeCommunication);
+                } else if (position == 2) {
+                    Intent writeEduinfo = new Intent(MainActivity.this, WritePersonMessageActivity.class);
+                    startActivity(writeEduinfo);
+                }
+                break;
         }
     }
 
@@ -111,7 +129,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onPageSelected(int position) {
+        this.position = position;
         res();
+        titleView.isShowRightText(false);
         switch (position) {
             case 0:
                 titleView.setCustomTitle("在线考试");
@@ -119,11 +139,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 imgExamination.setImageResource(R.mipmap.write_press);
                 break;
             case 1:
+                titleView.isShowRightText(true);
+                titleView.setRightText("发帖");
                 titleView.setCustomTitle("社区");
                 textCommunication.setTextColor(getResources().getColor(R.color.app_color));
                 imgCommunication.setImageResource(R.mipmap.communication_press);
                 break;
             case 2:
+                titleView.isShowRightText(true);
+                titleView.setRightText("编辑");
                 titleView.setCustomTitle("个人中心");
                 textPerson.setTextColor(getResources().getColor(R.color.app_color));
                 imgPerson.setImageResource(R.mipmap.person_press);
