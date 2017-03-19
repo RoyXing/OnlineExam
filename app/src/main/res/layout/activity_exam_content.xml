@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/all_bg_white">
 
     <include layout="@layout/title_toolbar" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
@@ -22,6 +21,7 @@
             android:src="@mipmap/last"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
+            android:visibility="gone"
             />
         <ImageView
             android:id="@+id/img_next"
@@ -32,7 +32,28 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:src="@mipmap/next"
+            android:visibility="gone"
             />
+        <TextView
+            android:id="@+id/text_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:padding="8dp"
+            android:layout_margin="8dp"
+            android:text="第1题"/>
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:layout_alignParentRight="true"
+            android:padding="8dp"
+            android:layout_margin="8dp"
+            android:text="开始计时"/>
     </RelativeLayout>
 
 </LinearLayout>

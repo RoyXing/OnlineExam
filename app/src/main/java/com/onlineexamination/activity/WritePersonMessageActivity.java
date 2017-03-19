@@ -33,6 +33,7 @@ import com.onlineexamination.utils.FiledUtil;
 import com.onlineexamination.utils.JsonToBean;
 import com.onlineexamination.utils.SharedPreferencesDB;
 import com.onlineexamination.utils.ToastUtils;
+import com.onlineexamination.view.BaseActivity;
 import com.onlineexamination.view.DialogView;
 import com.onlineexamination.view.RoundImageView;
 import com.onlineexamination.view.TitleView;
@@ -44,17 +45,21 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.net.Proxy;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Call;
 
+import static android.R.attr.value;
+
 /**
  * Created by 庞品 on 2017/1/22.
  */
 
-public class WritePersonMessageActivity extends Activity implements View.OnClickListener {
+public class WritePersonMessageActivity extends BaseActivity implements View.OnClickListener {
     TitleView mToolbar;
     RoundImageView userImage;
     private RelativeLayout layName, laySex, layBirth, layStudyAccount, layStudyMajor, layStudyDepartment, laypassword;
@@ -159,10 +164,10 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
         } else {
             tvSex.setText("请设置你的性别");
         }
-        if (!SharedPreferencesDB.getInstance().getString("useraccout", "").equals("")) {
-            tvStudyAccount.setText(SharedPreferencesDB.getInstance().getString("useraccout", ""));
+        if (!SharedPreferencesDB.getInstance().getString("email", "").equals("")) {
+            tvStudyAccount.setText(SharedPreferencesDB.getInstance().getString("email", ""));
         } else {
-            tvStudyAccount.setText("请设置你的学号");
+            tvStudyAccount.setText("请设置你的邮箱");
         }
         if (!SharedPreferencesDB.getInstance().getString("usermajor", "").equals("")) {
             tvStudyMajor.setText(SharedPreferencesDB.getInstance().getString("usermajor", ""));
@@ -302,9 +307,9 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
             case R.id.lay_birth:
                 choiceBirth();
                 break;
-            //修改学号
+            //修改邮箱
             case R.id.lay_study_accout:
-                editName(1, "请输入你的学号");
+                editName(1, "请输入你的邮箱");
                 break;
             //修改专业
             case R.id.lay_study_major:
@@ -352,7 +357,7 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
                 R.id.et_dialogCustomView_name);
         editText.setHint(hint);
         if (positin == 1) {
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         }
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -367,10 +372,10 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
                 if (!TextUtils.isEmpty(name)) {
                     switch (positin) {
                         case 0:
-                            upPersonMessage("昵称修改中...", "userName", name);
+                            upPersonMessage("昵称修改中...", "name", name);
                             break;
                         case 1:
-                            upPersonMessage("学号信息修改中...", "studentId", name);
+                            upPersonMessage("邮箱信息修改中...", "email", name);
                             break;
                         case 2:
                             upPersonMessage("专业信息修改中...", "majoy", name);
@@ -413,11 +418,12 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
                     if (TextUtils.isEmpty(editTextNewFirst.getText().toString()) || TextUtils.isEmpty(editTextNewLast.getText().toString())) {
                         ToastUtils.show(WritePersonMessageActivity.this, "新密码不能为空");
                     } else if (editTextNewFirst.getText().toString().equals(editTextNewLast.getText().toString())) {
-                        if (editTextold.getText().toString().equals(SharedPreferencesDB.getInstance().getString("password", ""))) {
-                            upPersonMessage("密码修改中...", "password", editTextNewFirst.getText().toString());
-                        }else{
-                            ToastUtils.show(WritePersonMessageActivity.this, "原密码错误，如忘记请联系管理员！");
-                        }
+                        upPassword("密码修改中...", editTextold.getText().toString(), editTextNewFirst.getText().toString());
+//                        if (editTextold.getText().toString().equals(SharedPreferencesDB.getInstance().getString("password", ""))) {
+//                            upPersonMessage("密码修改中...", "password", editTextNewFirst.getText().toString());
+//                        } else {
+//                            ToastUtils.show(WritePersonMessageActivity.this, "原密码错误，如忘记请联系管理员！");
+//                        }
                     } else {
                         ToastUtils.show(WritePersonMessageActivity.this, "两次输入的新密码不一致");
                     }
@@ -435,12 +441,14 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
     private void upPersonMessage(String message, final String type, final String content) {
         dialogViewPerson.show();
         dialogViewPerson.setMessage(message);
+
         OkHttpUtils.
                 post().
                 url(Config.UP_PERSON_MESSAGE).
-                addParams("userId", SharedPreferencesDB.getInstance().getString("userid", "")).
+                addParams("id", SharedPreferencesDB.getInstance().getString("userid", "")).
                 addParams(type, content).
-                build().execute(new StringCallback() {
+                // addParams(type, URLEncoder.encode(content, "UTF-8").toString()).
+                        build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 ToastUtils.show(WritePersonMessageActivity.this, "服务器错误");
@@ -453,45 +461,42 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
             public void onResponse(String response, int id) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.optInt("code") == 10000 && jsonObject.optString("info").equals("success")) {
-                        UserBean userBean = JsonToBean.getBean(jsonObject.optString("response").toString(), UserBean.class);
-                        SharedPreferencesDB.getInstance().setString("username", userBean.getUserName());
-                        SharedPreferencesDB.getInstance().setString("userimgae", userBean.getIcon());
-                        SharedPreferencesDB.getInstance().setString("usersex", userBean.getSex());
-                        SharedPreferencesDB.getInstance().setString("userbirth", userBean.getBirthday());
-                        SharedPreferencesDB.getInstance().setString("useraccout", userBean.getStudentId());
-                        SharedPreferencesDB.getInstance().setString("usermajor", userBean.getMajoy());
-                        SharedPreferencesDB.getInstance().setString("usercollege", userBean.getCollege());
-
+                    if (jsonObject.optInt("code") == 10000) {
                         switch (type) {
                             //昵称
-                            case "userName":
+                            case "name":
                                 tvUserName.setText(content);
+                                ToastUtils.toast("姓名修改成功");
+                                SharedPreferencesDB.getInstance().setString("username", content);
                                 break;
                             //学号
-                            case "studentId":
+                            case "email":
                                 tvStudyAccount.setText(content);
+                                SharedPreferencesDB.getInstance().setString("email", content);
                                 break;
                             //专业
                             case "majoy":
                                 tvStudyMajor.setText(content);
+                                SharedPreferencesDB.getInstance().setString("usermajor", content);
                                 break;
                             //学院
                             case "college":
                                 tvStudyDepartment.setText(content);
+                                SharedPreferencesDB.getInstance().setString("usercollege", content);
                                 break;
                             //密码修改
                             case "password":
                                 SharedPreferencesDB.getInstance().setString("password", content);
                                 ToastUtils.show(WritePersonMessageActivity.this, "密码修改成功！");
                                 break;
-                            //头像上传
-                            case "icon":
-                                ToastUtils.show(WritePersonMessageActivity.this, "头像设置成功");
+                            //性别修改成功
+                            case "sex":
+                                SharedPreferencesDB.getInstance().setString("usersex", content);
+                                ToastUtils.show(WritePersonMessageActivity.this, "性别设置成功");
                                 break;
                         }
                     } else {
-                        ToastUtils.show(WritePersonMessageActivity.this, "信息修改失败！");
+                        ToastUtils.show(WritePersonMessageActivity.this, "解析信息修改失败！");
                     }
 
                 } catch (Exception e) {
@@ -502,9 +507,51 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
                     dialogViewPerson.close();
             }
         });
+
+
     }
 
-    //一下是拍照所用
+    /**
+     * 密码修改
+     */
+    private void upPassword(String message, String old, String newp) {
+        dialogViewPerson.show();
+        dialogViewPerson.setMessage(message);
+        OkHttpUtils.
+                post().
+                url(Config.RW_PASSWORD).
+                addParams("account_id", SharedPreferencesDB.getInstance().getString("account_id", "")).
+                addParams("oldPass", old).
+                addParams("newPass", newp).
+                build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                ToastUtils.show(WritePersonMessageActivity.this, "服务器错误");
+                if (dialogViewPerson != null)
+                    dialogViewPerson.close();
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.optInt("code") == 10000) {
+                        ToastUtils.toast("密码修改成功");
+                    } else {
+                        ToastUtils.show(WritePersonMessageActivity.this, "密码修改失败！");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ToastUtils.show(WritePersonMessageActivity.this, "密码修改失败！");
+                }
+                if (dialogViewPerson != null)
+                    dialogViewPerson.close();
+            }
+        });
+    }
+
+    //以下是拍照所用
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -559,7 +606,8 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
         Map<String, String> map = new HashMap();
         map.put("enctype", "multipart/form-data");
         OkHttpUtils.post()
-                .addFile("img", "userimg.jpg", f)
+                .addFile("file", "userimg.jpg", f)
+                .addParams("student_id", SharedPreferencesDB.getInstance().getString("userid", ""))
                 .url(Config.UP_FILE)
                 .headers(map)
                 .build()
@@ -578,7 +626,7 @@ public class WritePersonMessageActivity extends Activity implements View.OnClick
                             if (jsonObject.optInt("code") == 10000) {
                                 String url = jsonObject.getString("response");
                                 ToastUtils.show(WritePersonMessageActivity.this, "头像上传成功");
-                                upPersonMessage("头像信息修改中...", "icon", url);
+                                SharedPreferencesDB.getInstance().setString("userimgae", Config.URL + "/" + url);
                             } else {
                                 ToastUtils.show(WritePersonMessageActivity.this, "头像上传失败，请重试");
                             }

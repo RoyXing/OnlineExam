@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/for_photo">
+    android:id="@+id/for_photo"
+    android:background="@color/white">
 
     <include layout="@layout/title_toolbar" />
 
@@ -43,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/x"
-            android:text="易学" />
+            android:text="在线考试" />
         <ImageView
             android:id="@+id/x"
             style="@style/Add20HuabiTheme"
@@ -97,11 +98,13 @@
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:background="@color/gray3"/>
     <RelativeLayout
         android:id="@+id/lay_birth"
         android:layout_width="fill_parent"
         android:paddingRight="5dp"
+        android:visibility="gone"
         android:background="@drawable/center_item_selector"
         android:layout_height="wrap_content" >
 
@@ -129,16 +132,19 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:visibility="gone"
         android:background="@color/gray3"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:background="@color/gray3"/>
     <RelativeLayout
         android:id="@+id/lay_study_accout"
         android:layout_width="fill_parent"
         android:paddingRight="5dp"
+        android:visibility="visible"
         android:background="@drawable/center_item_selector"
         android:layout_height="wrap_content" >
 
@@ -146,7 +152,7 @@
             style="@style/UserinfoTextTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="学号" />
+            android:text="邮箱" />
 
         <TextView
             android:id="@+id/tv_study_account"
@@ -154,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/a"
-            android:text="121007121" />
+            android:text="782771031@qq.com" />
         <ImageView
             android:id="@+id/a"
             style="@style/Add20HuabiTheme"
@@ -166,6 +172,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:visibility="visible"
         android:background="@color/gray3"/>
     <View
         android:layout_width="match_parent"

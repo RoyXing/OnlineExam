@@ -1,6 +1,5 @@
 package com.onlineexamination.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,12 +11,15 @@ import com.onlineexamination.R;
 import com.onlineexamination.config.Config;
 import com.onlineexamination.utils.SharedPreferencesDB;
 import com.onlineexamination.utils.ToastUtils;
+import com.onlineexamination.view.BaseActivity;
 import com.onlineexamination.view.DialogView;
 import com.onlineexamination.view.TitleView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 import okhttp3.Call;
 
@@ -26,7 +28,7 @@ import okhttp3.Call;
  * 发帖界面
  */
 
-public class WriteCommunicationActivity extends Activity implements View.OnClickListener {
+public class WriteCommunicationActivity extends BaseActivity implements View.OnClickListener {
 
     TitleView mToolbar;
     EditText edTitle, edContent;

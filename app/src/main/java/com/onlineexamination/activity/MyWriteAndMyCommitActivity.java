@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.onlineexamination.R;
 import com.onlineexamination.fragment.CommunicationFragment;
+import com.onlineexamination.view.BaseFragmentActivity;
 import com.onlineexamination.view.TitleView;
 
 
@@ -17,7 +18,7 @@ import com.onlineexamination.view.TitleView;
  * 我的发帖及与我相关
  */
 
-public class MyWriteAndMyCommitActivity extends AppCompatActivity implements View.OnClickListener {
+public class MyWriteAndMyCommitActivity extends BaseFragmentActivity implements View.OnClickListener {
     TitleView mToolbar;
 
     @Override

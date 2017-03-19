@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.onlineexamination.R;
 import com.onlineexamination.bean.TopicCommitBean;
+import com.onlineexamination.config.Config;
 import com.onlineexamination.utils.TimeUtils;
 import com.onlineexamination.view.RoundImageView;
 import com.squareup.picasso.Picasso;
@@ -56,7 +57,7 @@ public class CommunicationCommitAdapter extends ArrayAdapter<TopicCommitBean> {
         } else {
             holderView = (HolderView) convertView.getTag();
         }
-        Picasso.with(context).load(list.get(position).getUserIcon()).placeholder(R.mipmap.applogo).error(R.mipmap.applogo).into(holderView.headImg);
+        Picasso.with(context).load(Config.URL+"/"+list.get(position).getUserIcon()).placeholder(R.mipmap.applogo).error(R.mipmap.applogo).into(holderView.headImg);
         holderView.userName.setText(list.get(position).getUserName()+"("+(position+1)+"楼)");
         holderView.time.setText(TimeUtils.longToString(list.get(position).getCreateTime()));
         String parentName=getParentName(list.get(position));

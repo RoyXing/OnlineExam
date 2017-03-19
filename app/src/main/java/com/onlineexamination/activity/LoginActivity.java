@@ -93,34 +93,37 @@ public class LoginActivity extends Activity implements  View.OnClickListener {
                 break;
         }
     }
-    public void login( String userName, String password) {
+    public void login(final String userName, String password) {
         OkHttpUtils
                 .post()
                 .url(Config.LOGIN)
-                .addParams("phone", userName)
+                .addParams("name", userName)
                 .addParams("password", password)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
+                        ToastUtils.toast("服务器错误");
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.optInt("code") == 10000 && jsonObject.optString("info").equals("success")) {
+                            if (jsonObject.optInt("code") == 10000) {
                                 UserBean userBean = JsonToBean.getBean(jsonObject.optString("response").toString(), UserBean.class);
-                                SharedPreferencesDB.getInstance().setString("userid", userBean.getUserId());
-                                SharedPreferencesDB.getInstance().setString("username", userBean.getUserName());
-                                SharedPreferencesDB.getInstance().setString("userimgae", userBean.getIcon());
+                                SharedPreferencesDB.getInstance().setString("userid", userBean.getId());
+                                SharedPreferencesDB.getInstance().setString("account_id", userBean.getAccount_id());
+                                SharedPreferencesDB.getInstance().setString("username", userBean.getName());
+                                SharedPreferencesDB.getInstance().setString("userimgae", Config.URL+"/"+userBean.getImgUrl());
                                 SharedPreferencesDB.getInstance().setString("usersex", userBean.getSex());
                                 SharedPreferencesDB.getInstance().setString("userbirth", userBean.getBirthday());
                                 SharedPreferencesDB.getInstance().setString("useraccout", userBean.getStudentId());
                                 SharedPreferencesDB.getInstance().setString("usermajor", userBean.getMajoy());
                                 SharedPreferencesDB.getInstance().setString("usercollege", userBean.getCollege());
                                 SharedPreferencesDB.getInstance().setString("phone", userBean.getPhone());
-                                SharedPreferencesDB.getInstance().setString("password", editPassword.getText().toString());
+                                SharedPreferencesDB.getInstance().setString("email",userBean.getEmail());
+
                                 onComplete();
                             } else {
                                 ToastUtils.toast("验证失败！");

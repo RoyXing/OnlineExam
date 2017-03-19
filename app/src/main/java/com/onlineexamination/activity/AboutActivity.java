@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.onlineexamination.R;
+import com.onlineexamination.view.BaseActivity;
 import com.onlineexamination.view.TitleView;
 
 
@@ -13,7 +14,7 @@ import com.onlineexamination.view.TitleView;
  * Created by 庞品 on 2017/1/23.
  */
 
-public class AboutActivity extends Activity implements View.OnClickListener {
+public class AboutActivity extends BaseActivity implements View.OnClickListener {
     private TitleView toolbar;
     TextView tvContent;
 
@@ -26,7 +27,7 @@ public class AboutActivity extends Activity implements View.OnClickListener {
         toolbar.isShowLeftImage(true);
         toolbar.setLeftImageOnClickListener(this);
         tvContent = (TextView) findViewById(R.id.tv_content);
-        tvContent.setText("放入易学的相关简介即可");
+        tvContent.setText("放入相关简介即可");
     }
 
     @Override

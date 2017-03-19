@@ -22,11 +22,12 @@
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"/>
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@mipmap/setting_clear_ok"/>-->
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/xuanzhuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/xuanzhuan"/>
         <TextView
             android:id="@+id/text_message"
             android:layout_width="wrap_content"

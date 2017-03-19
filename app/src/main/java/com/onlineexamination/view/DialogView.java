@@ -4,6 +4,10 @@ package com.onlineexamination.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.onlineexamination.R;
@@ -15,6 +19,7 @@ public class DialogView extends Dialog {
 
     Context context;
     private TextView textView;
+    private ImageView xuanzhuan;
 
     public DialogView(Context context) {
         this(context, DEFAULT_STYLE);
@@ -30,8 +35,12 @@ public class DialogView extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_loading);
-
+        xuanzhuan = (ImageView) findViewById(R.id.xuanzhuan);
         textView = (TextView) findViewById(R.id.text_message);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.xuanzhuan_anim);
+        LinearInterpolator lir=new LinearInterpolator();
+        anim.setInterpolator(lir);
+        xuanzhuan.startAnimation(anim);
     }
 
     /**

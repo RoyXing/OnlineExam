@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,14 @@ import android.widget.TextView;
 
 import com.onlineexamination.R;
 import com.onlineexamination.activity.AboutActivity;
+import com.onlineexamination.activity.ExamRecordListActivity;
 import com.onlineexamination.activity.LoginActivity;
-import com.onlineexamination.activity.MainActivity;
+import com.onlineexamination.utils.TimeUtils;
 import com.onlineexamination.activity.MyWriteAndMyCommitActivity;
 import com.onlineexamination.adapter.PersonAdapter;
 import com.onlineexamination.bean.PersonItemBean;
 import com.onlineexamination.utils.SharedPreferencesDB;
-import com.onlineexamination.utils.TimeUtil;
+
 import com.onlineexamination.utils.ToastUtils;
 import com.onlineexamination.view.ExpandListview;
 import com.onlineexamination.view.RoundImageView;
@@ -36,6 +36,7 @@ import java.util.List;
 public class PersonFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ExpandListview expandListview;
     private TextView username;
+    private RoundImageView roundImageView;
 
     @Nullable
     @Override
@@ -47,12 +48,12 @@ public class PersonFragment extends Fragment implements AdapterView.OnItemClickL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         expandListview = (ExpandListview) view.findViewById(R.id.person_listview);
-        Picasso.with(getActivity()).load(SharedPreferencesDB.getInstance().getString("userimgae", "null")).into((RoundImageView) view.findViewById(R.id.user_head_img));
-        ((TextView) view.findViewById(R.id.user_name)).setText(TimeUtil.getDate() + "："+SharedPreferencesDB.getInstance().getString("username","未登录"));
+        roundImageView = (RoundImageView) view.findViewById(R.id.user_head_img);
+        username = (TextView) view.findViewById(R.id.user_name);
         List<PersonItemBean> personItemBeen = new ArrayList<>();
         personItemBeen.add(new PersonItemBean("我的发帖", R.mipmap.my_write));
         personItemBeen.add(new PersonItemBean("与我相关", R.mipmap.with_me));
-        personItemBeen.add(new PersonItemBean("成绩记录", R.mipmap.exam_result));
+        personItemBeen.add(new PersonItemBean("考试成绩", R.mipmap.exam_result));
         personItemBeen.add(new PersonItemBean("关于我们", R.mipmap.about_me));
         personItemBeen.add(new PersonItemBean("退出登录", R.mipmap.exit));
         expandListview.setAdapter(new PersonAdapter(getActivity(), 0, personItemBeen));
@@ -74,6 +75,8 @@ public class PersonFragment extends Fragment implements AdapterView.OnItemClickL
                 startActivity(myCommit);
                 break;
             case 2:
+                Intent record = new Intent(getActivity(), ExamRecordListActivity.class);
+                startActivity(record);
                 break;
             case 3:
                 Intent about = new Intent(getActivity(), AboutActivity.class);
@@ -89,5 +92,12 @@ public class PersonFragment extends Fragment implements AdapterView.OnItemClickL
             case 5:
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Picasso.with(getActivity()).load(SharedPreferencesDB.getInstance().getString("userimgae", "null")).into(roundImageView);
+        username.setText(TimeUtils.getDate() + "：" + SharedPreferencesDB.getInstance().getString("username", "未登录"));
     }
 }

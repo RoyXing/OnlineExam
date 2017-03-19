@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.onlineexamination.R;
 import com.onlineexamination.config.Config;
 import com.onlineexamination.utils.ToastUtils;
+import com.onlineexamination.view.BaseActivity;
 import com.onlineexamination.view.TitleView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -27,7 +28,7 @@ import okhttp3.Call;
  * Created by roy on 2017/1/15.
  */
 
-public class RegisterActivity extends Activity implements View.OnClickListener {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText register_nickname;
     private EditText register_account;

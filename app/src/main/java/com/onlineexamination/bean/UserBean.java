@@ -8,6 +8,12 @@ import java.io.Serializable;
  */
 
 public class UserBean implements Serializable {
+    private String account_id;
+    private String account;
+    private String name;
+    private String email;
+    private String tel;
+    private String imgUrl;
     private String id;
     private String userId;
     private String userName;
@@ -19,6 +25,54 @@ public class UserBean implements Serializable {
     private String college;
     private String majoy;
     private String studentId;
+
+    public String getAccount_id() {
+        return account_id;
+    }
+
+    public void setAccount_id(String account_id) {
+        this.account_id = account_id;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public String getSex() {
         return sex;

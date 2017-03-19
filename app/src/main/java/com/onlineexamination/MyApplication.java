@@ -2,8 +2,11 @@ package com.onlineexamination;
 
 import android.app.Application;
 
+import com.onlineexamination.bean.ExamQuestionBean;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -15,10 +18,12 @@ import okhttp3.OkHttpClient;
 public class MyApplication extends Application {
     private static MyApplication instance;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         init();
+
     }
 
     /**
@@ -40,4 +45,5 @@ public class MyApplication extends Application {
     public static MyApplication getInstance() {
         return instance;
     }
+
 }

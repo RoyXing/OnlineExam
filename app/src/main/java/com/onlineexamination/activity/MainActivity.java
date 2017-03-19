@@ -56,7 +56,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         imgPerson = (ImageView) findViewById(R.id.img_person);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         titleView = (TitleView) findViewById(R.id.toolbar);
-        titleView.setCustomTitle("在线考试");
+        titleView.setCustomTitle("试题类别");
         titleView.setRightTextOnClickListener(this);
         lineExamination.setOnClickListener(this);
         lineCommunication.setOnClickListener(this);
@@ -90,7 +90,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.line_examination:
                 change(0);
-                titleView.setCustomTitle("在线考试");
+                titleView.setCustomTitle("试题类别");
                 textExamination.setTextColor(getResources().getColor(R.color.app_color));
                 imgExamination.setImageResource(R.mipmap.write_press);
                 break;
@@ -134,7 +134,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         titleView.isShowRightText(false);
         switch (position) {
             case 0:
-                titleView.setCustomTitle("在线考试");
+                titleView.setCustomTitle("试题类别");
                 textExamination.setTextColor(getResources().getColor(R.color.app_color));
                 imgExamination.setImageResource(R.mipmap.write_press);
                 break;

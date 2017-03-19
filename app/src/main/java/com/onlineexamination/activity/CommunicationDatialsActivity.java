@@ -26,6 +26,7 @@ import com.onlineexamination.utils.JsonToBean;
 import com.onlineexamination.utils.SharedPreferencesDB;
 import com.onlineexamination.utils.TimeUtils;
 import com.onlineexamination.utils.ToastUtils;
+import com.onlineexamination.view.BaseActivity;
 import com.onlineexamination.view.DialogView;
 import com.onlineexamination.view.ExpandListview;
 import com.onlineexamination.view.RoundImageView;
@@ -48,7 +49,7 @@ import okhttp3.Call;
  * 社区详情类
  */
 
-public class CommunicationDatialsActivity extends Activity implements View.OnClickListener {
+public class CommunicationDatialsActivity extends BaseActivity implements View.OnClickListener {
     TitleView mToolbar;
     RoundImageView userImg;
     TextView userName, articleTitle, articleContent, articleCommit, articleTime;
@@ -166,7 +167,7 @@ public class CommunicationDatialsActivity extends Activity implements View.OnCli
                     public void onResponse(String response, int id) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.optInt("code") == 10000 && jsonObject.opt("info").equals("success")) {
+                            if (jsonObject.optInt("code") == 10000 ) {
                                 TopicBean topicBean = JsonToBean.getBean(jsonObject.optString("response").toString(), TopicBean.class);
                                 //如果评论的数据多余当前显示的数据，只让上面的评论数+1
                                 setHeadData(topicBean);
@@ -259,7 +260,7 @@ public class CommunicationDatialsActivity extends Activity implements View.OnCli
                     public void onResponse(String response, int id) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.optInt("code") == 10000 && jsonObject.optString("info").equals("success")) {
+                            if (jsonObject.optInt("code") == 10000) {
                                 write = true;
                                 if (list.size() < 10) {//小于10条的时候，直接刷新
                                     page = 0;

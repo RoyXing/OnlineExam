@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textColor="@color/app_color"
-            android:text="在线考试"/>
+            android:text="试题类别"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/line_communication"

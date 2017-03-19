@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.onlineexamination.R;
 import com.onlineexamination.bean.TopicBean;
+import com.onlineexamination.config.Config;
 import com.onlineexamination.utils.TimeUtils;
 import com.onlineexamination.view.RoundImageView;
 import com.squareup.picasso.Picasso;
@@ -61,13 +62,13 @@ public class CommunicationAdapter extends ArrayAdapter<TopicBean> {
         holder.articleContent.setText(list.get(position).getContent());
         holder.articleCommit.setText("评论数：" + list.get(position).getCommentNum());
         holder.articleTime.setText(TimeUtils.longToString(list.get(position).getCreateTime()) + "");
-        Picasso.with(context).load(list.get(position).getIcon()).placeholder(R.mipmap.applogo).error(R.mipmap.applogo).into(holder.userImg);
+        Picasso.with(context).load(Config.URL+"/"+list.get(position).getIcon()).placeholder(R.mipmap.applogo).error(R.mipmap.applogo).into(holder.userImg);
         return convertView;
     }
 
-    class CommunicationHolder {
-        RoundImageView userImg;
-        TextView userName, articleTitle, articleContent, articleCommit, articleTime;
-        CardView cardView;
+    public class CommunicationHolder {
+        public RoundImageView userImg;
+        public TextView userName, articleTitle, articleContent, articleCommit, articleTime;
+        public CardView cardView;
     }
 }

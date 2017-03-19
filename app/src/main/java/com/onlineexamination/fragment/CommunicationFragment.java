@@ -3,6 +3,7 @@ package com.onlineexamination.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -41,7 +42,6 @@ import okhttp3.Call;
 
 public class CommunicationFragment extends Fragment {
 
-    private View mView;
     private SwipeRefreshLayout refreshLayout;
     private ListView listView;
     private View footview;
@@ -57,8 +57,7 @@ public class CommunicationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_layout_commincation, null);
-        return mView;
+        return inflater.inflate(R.layout.fragment_layout_commincation, null);
     }
 
     @Override
@@ -141,7 +140,7 @@ public class CommunicationFragment extends Fragment {
                     .post()
                     .url(urls)
                     .addParams("page", page + "")
-                    .addParams("userId", userid)
+                    .addParams("studentId", userid)
                     .build()
                     .execute(new StringCallback() {
                         @Override
@@ -156,7 +155,7 @@ public class CommunicationFragment extends Fragment {
                         public void onResponse(String response, int id) {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-                                if (jsonObject.optInt("code") == 10000 && jsonObject.optString("info").equals("success")) {
+                                if (jsonObject.optInt("code") == 10000) {
                                     List<TopicBean> topicBeanList = JsonToBean.getBeans(jsonObject.opt("response").toString(), TopicBean.class);
                                     listView.removeFooterView(footview);
                                     if (page == 0)
@@ -199,7 +198,7 @@ public class CommunicationFragment extends Fragment {
                         public void onResponse(String response, int id) {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-                                if (jsonObject.optInt("code") == 10000 && jsonObject.optString("info").equals("success")) {
+                                if (jsonObject.optInt("code") == 10000) {
                                     List<TopicBean> topicBeanList = JsonToBean.getBeans(jsonObject.opt("response").toString(), TopicBean.class);
                                     listView.removeFooterView(footview);
                                     if (page == 0)

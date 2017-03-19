@@ -22,6 +22,8 @@ public class StartActivity extends Activity {
                 super.run();
                 try {
                     Thread.sleep(2000);//休眠2秒
+//                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
+//                    startActivity(intent);
                     if (SharedPreferencesDB.getInstance().getBoolean("isLogin", false)) {
                         Intent intent = new Intent(StartActivity.this, MainActivity.class);
                         startActivity(intent);
